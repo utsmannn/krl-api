@@ -1,7 +1,6 @@
 package com.berangkat.kerja
 
 import com.berangkat.kerja.model.OpenCageData
-import io.reactivex.Flowable
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,12 +15,6 @@ interface RetrofitInstance {
             @Query("q") name: String,
             @Query("key") token: String
     ): Call<OpenCageData>
-
-    @GET("/geocode/v1/json")
-    fun getLocationRx(
-            @Query("q") name: String,
-            @Query("key") token: String
-    ): Flowable<OpenCageData>
 
     companion object {
         fun create(): RetrofitInstance {

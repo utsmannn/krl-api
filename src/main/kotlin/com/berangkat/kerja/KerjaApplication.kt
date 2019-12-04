@@ -2,7 +2,6 @@ package com.berangkat.kerja
 
 import com.berangkat.kerja.model.*
 import com.google.gson.Gson
-import io.reactivex.rxkotlin.subscribeBy
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.*
@@ -85,8 +84,8 @@ class RestController {
 	}
 
 	@RequestMapping(value = ["/station"], method = [RequestMethod.GET])
-	fun getStationList(): List<StationName> {
-		return stationNameData
+	fun getStationList(): Responses {
+		return Responses(stationNameData.size, stationNameData)
 	}
 
 	@RequestMapping(value = [""], method = [RequestMethod.GET])
@@ -96,8 +95,9 @@ class RestController {
 	}
 
 	@RequestMapping(value = ["/station_name"], method = [RequestMethod.GET])
-	fun getStationStringList(): List<String> {
-		return stationNameData.map { it.good_name }
+	fun getStationStringList(): Responses {
+		val result = stationNameData.map { it.good_name }
+		return Responses(result.size, result)
 	}
 
 	@RequestMapping(value = ["/{station_name}"], method = [RequestMethod.GET])
