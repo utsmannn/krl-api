@@ -2,14 +2,12 @@ package com.berangkat.kerja
 
 import com.berangkat.kerja.model.*
 import com.google.gson.Gson
+import io.reactivex.rxkotlin.subscribeBy
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @SpringBootApplication
 class KerjaApplication
@@ -50,7 +48,7 @@ class RestController {
 		}
 
 		model.data.forEach { data ->
-			data.good_name = stationNameData.find { it.name == data.sts }?.good_name.toString()
+			data.station_name = stationNameData.find { it.name == data.station }?.good_name.toString()
 			originData = model.data
 		}
 	}
@@ -104,7 +102,7 @@ class RestController {
 
 	@RequestMapping(value = ["/{station_name}"], method = [RequestMethod.GET])
 	fun getStation(@PathVariable("station_name") stationName: String): Responses {
-		val data = originData.filter { it.sts.toLowerCase() == stationName.toLowerCase() }
+		val data = originData.filter { it.station.toLowerCase() == stationName.toLowerCase() }
 		return Responses(data.size, data)
 	}
 }
